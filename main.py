@@ -111,6 +111,11 @@ def quick_sort(arr):
             stack.append((j + 1, high))
 
     return result
+def save_in_newFile(array_to_save : list, name_output_File : str):
+    file = open(f"{name_output_File}.txt", "w", encoding="utf-8")
+    for i in array_to_save:
+        file.write(f"{i.date.day} {i.date.month} {i.date.year} {i.fio.f} {i.fio.i} {i.fio.o} {i.other_data}\n")
+    file.close()
 
 if __name__ == "__main__":
     DATA_for_sort = read_data_from_file("input_1000000_v2.txt")
@@ -119,9 +124,17 @@ if __name__ == "__main__":
 
     time_start = time.perf_counter ()
 
-    file = open("output_input_1000000_v2.txt", "w", encoding="utf-8")
-    for i in two_way_insert_sort(DATA_for_sort):
-        file.write(f"{i.date.day} {i.date.month} {i.date.year} {i.fio.f} {i.fio.i} {i.fio.o} {i.other_data}\n")
-    file.close()
+    sorted_DATA = quick_sort(DATA_for_sort)
+
     time_end = time.perf_counter()
-    print(f"Время выполнения: {time_end - time_start:.6f} секунд")
+    print(f"Время выполнения Быстрая : {time_end - time_start:.6f} секунд")
+
+    save_in_newFile(sorted_DATA, "output_input_1000000_v2")
+
+    time_start = time.perf_counter()
+
+    sorted_DATA = two_way_insert_sort(DATA_for_sort)
+
+    time_end = time.perf_counter()
+
+    print(f"Время выполнения Двухпутевые вставки : {time_end - time_start:.6f} секунд")
