@@ -21,9 +21,11 @@ class Key:
 def read_data_from_file(filename):
     keys = []
     file = open(filename, 'r', encoding='utf-8')
-    for line in file:
+    while True:
+        line = file.readline()
         if not line:
-            continue
+            file.close()
+            return keys
 
         line = line.strip().split()
         if len(line) == 6:
@@ -39,8 +41,6 @@ def read_data_from_file(filename):
                 fio = FIO(f, i, o)
                 key = Key(date, fio, tail)
                 keys.append(key)
-    file.close()
-    return keys
 
 def compare_keys(a, b):
     if a.date.year != b.date.year:
