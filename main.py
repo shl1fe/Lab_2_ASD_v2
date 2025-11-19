@@ -20,23 +20,25 @@ class Key:
 
 def read_data_from_file(filename):
     keys = []
-    with open(filename, 'r', encoding='utf-8') as file:
-        for line in file:
-            line = line.strip().split()
-            if len(line) == 6:
-                day, month, year, f, i, o = line
+    file = open(filename, 'r', encoding='utf-8')
+    for line in file:
+        if not line:
+            continue
+
+        line = line.strip().split()
+        if len(line) == 6:
+            day, month, year, f, i, o = line
+            date = Date(int(day), int(month), int(year))
+            fio = FIO(f, i, o)
+            key = Key(date, fio)
+            keys.append(key)
+
+        if len(line) == 7:
+                day, month, year, f, i, o, tail = line
                 date = Date(int(day), int(month), int(year))
                 fio = FIO(f, i, o)
-                key = Key(date, fio)
+                key = Key(date, fio, tail)
                 keys.append(key)
-
-            if len(line) == 7:
-                    day, month, year, f, i, o, tail = line
-                    date = Date(int(day), int(month), int(year))
-                    fio = FIO(f, i, o)
-                    key = Key(date, fio, tail)
-                    keys.append(key)
-
     file.close()
     return keys
 
