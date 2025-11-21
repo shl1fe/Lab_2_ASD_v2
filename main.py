@@ -6,6 +6,15 @@ from sorts.quick_sort import quick_sort
 from sorts.two_way_insert_sort import two_way_insert_sort
 
 def read_data_from_file(filename):
+    """
+       Чтение данных из файла и преобразование в список объектов Key
+
+       Args:
+           filename (str): Имя файла для чтения
+
+       Returns:
+           list: Список объектов Key
+       """
     keys = []
     file = open(filename, 'r', encoding='utf-8')
     for line in file:
