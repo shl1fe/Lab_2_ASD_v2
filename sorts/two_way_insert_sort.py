@@ -1,4 +1,14 @@
 def binary_search_for_insert(arr: list, target) -> int:
+    """
+       Бинарный поиск позиции для вставки элемента в отсортированный массив
+
+       Args:
+           arr (list): Отсортированный массив элементов
+           target: Элемент для вставки
+
+       Returns:
+           int: Позиция для вставки элемента
+       """
     left, right = 0, len(arr)
 
     while left < right:
