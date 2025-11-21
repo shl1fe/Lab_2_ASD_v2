@@ -5,6 +5,7 @@ from models.fio import FIO
 
 @dataclass
 class Key:
+    """Класс ключа для сортировки, дата, ФИО и дополнительные данные"""
     key_date: Date
     key_fio: FIO
     other_data: str = ''
@@ -13,6 +14,16 @@ class Key:
         return f"{self.key_date} {self.key_fio} {self.other_data}"
 
     def compare_keys(self, other):
+        """
+                Сравнение двух ключей для сортировки
+
+                Args:
+                    other (Key): Другой ключ для сравнения
+
+                Returns:
+                    bool: True если текущий ключ должен стоять перед другим при сортировке
+                          Сначала сравниваются даты (по возрастанию), затем ФИО (по убыванию)
+                """
         if self.key_date.year != other.key_date.year:
             return self.key_date.year < other.key_date.year
         if self.key_date.month != other.key_date.month:
