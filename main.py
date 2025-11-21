@@ -1,22 +1,29 @@
 from dataclasses import dataclass
 import  time
+
 @dataclass
 class Date:
     day: int
     month: int
     year: int
+    def __repr__(self):
+        return f"{Date.day} {Date.month} {Date.year}"
 
 @dataclass
 class FIO:
     f: str
     i: str
     o: str
+    def __repr__(self):
+        return f"{FIO.f} {FIO.i} {FIO.o}"
 
 @dataclass
 class Key:
     date: Date
     fio: FIO
     other_data : str = ''
+    def __repr__(self):
+        return f"{Key.date} {Key.fio} {Key.other_data}"
 
 def read_data_from_file(filename):
     keys = []
@@ -113,6 +120,7 @@ def quick_sort(arr):
             stack.append((j + 1, high))
 
     return result
+
 def save_in_newFile(array_to_save : list, name_output_File : str):
     file = open(f"{name_output_File}.txt", "w", encoding="utf-8")
     for i in array_to_save:
