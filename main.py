@@ -7,7 +7,7 @@ class Date:
     month: int
     year: int
     def __repr__(self):
-        return f"{Date.day} {Date.month} {Date.year}"
+        return f"{self.day} {self.month} {self.year}"
 
 @dataclass
 class FIO:
@@ -15,12 +15,12 @@ class FIO:
     i: str
     o: str
     def __repr__(self):
-        return f"{FIO.f} {FIO.i} {FIO.o}"
+        return f"{self.f} {self.i} {self.o}"
 
 @dataclass
 class Key:
-    date: Date
-    fio: FIO
+    key_date: Date
+    key_fio: FIO
     other_data : str = ''
     def __repr__(self):
         return f"{self.key_date} {self.key_fio} {self.other_data}"
@@ -43,11 +43,9 @@ class Key:
 def read_data_from_file(filename):
     keys = []
     file = open(filename, 'r', encoding='utf-8')
-    while True:
-        line = file.readline()
+    for line in file:
         if not line:
-            file.close()
-            return keys
+            continue
 
         line = line.strip().split()
         if len(line) == 6:
@@ -63,24 +61,8 @@ def read_data_from_file(filename):
                 fio = FIO(f, i, o)
                 key = Key(date, fio, tail)
                 keys.append(key)
-
-def compare_keys(a, b):
-    if a.date.year != b.date.year:
-        return a.date.year < b.date.year
-    if a.date.month != b.date.month:
-        return a.date.month < b.date.month
-    if a.date.day != b.date.day:
-        return a.date.day < b.date.day
-
-    if a.fio.f != b.fio.f:
-        return a.fio.f > b.fio.f
-    if a.fio.i != b.fio.i:
-        return a.fio.i > b.fio.i
-    return a.fio.o > b.fio.o
-
-def binary_search(arr, target):
-    low = 0
-    high = len(arr) - 1
+    file.close()
+    return keys
 
 def binary_search_for_insert(arr: list[Key], target: Key) -> int:
     left, right = 0, len(arr)
@@ -89,25 +71,23 @@ def binary_search_for_insert(arr: list[Key], target: Key) -> int:
         if arr[mid].compare_keys(target):
             right = mid
         else:
-            high = mid - 1
-    return low
+            left = mid + 1
+
+    return left
 
 
 def two_way_insert_sort(arr):
-    if  len(arr) <= 1:
+    if len(arr) <= 1:
         return arr
 
-    left = [arr[0]]
-    right = []
+    result = [arr[0]]
 
     for i in range(1, len(arr)):
         current = arr[i]
-        if compare_keys(current, left[0]):
-            left.insert(binary_search(left, current), current)
-        else:
-            right.insert(binary_search(right, current), current)
+        pos = binary_search_for_insert(result, current)
+        result.insert(pos, current)
 
-    return left + right
+    return result
 
 
 def quick_sort(arr):
@@ -119,28 +99,34 @@ def quick_sort(arr):
 
     while stack:
         low, high = stack.pop()
-        if low < high:
-            mid = (low + high) // 2
-            opor = result[mid]
-            i, j = low - 1, high + 1
+        if low >= high:
+            continue
 
-            while True:
+        mid = (low + high) // 2
+        opor = result[mid]
+        i, j = low, high
+
+        while i <= j:
+            while i <= high and result[i].compare_keys(opor):
                 i += 1
-                while compare_keys(result[i], opor): i += 1
+            while j >= low and opor.compare_keys(result[j]):
                 j -= 1
-                while compare_keys(opor, result[j]): j -= 1
-                if i >= j: break
+            if i <= j:
                 result[i], result[j] = result[j], result[i]
+                i += 1
+                j -= 1
 
+        if low < j:
             stack.append((low, j))
-            stack.append((j + 1, high))
+        if i < high:
+            stack.append((i, high))
 
     return result
 
 def save_in_newFile(array_to_save : list, name_output_File : str):
     file = open(f"{name_output_File}.txt", "w", encoding="utf-8")
     for i in array_to_save:
-        file.write(f"{i.date.day} {i.date.month} {i.date.year} {i.fio.f} {i.fio.i} {i.fio.o} {i.other_data}\n")
+        file.write(f"{i}\n")
     file.close()
 
 if __name__ == "__main__":
@@ -155,7 +141,7 @@ if __name__ == "__main__":
     time_end = time.perf_counter()
     print(f"Время выполнения Быстрая : {time_end - time_start:.6f} секунд")
 
-    save_in_newFile(sorted_DATA, "output_input_1000000_v2")
+    save_in_newFile(sorted_DATA, "test_output_changes")
 
     time_start = time.perf_counter()
 
