@@ -21,6 +21,15 @@ def binary_search_for_insert(arr: list, target) -> int:
     return left
 
 def two_way_insert_sort(arr):
+    """
+       Сортировка двухпутевыми вставками с использованием бинарного поиска
+
+       Args:
+           arr (list): Массив элементов для сортировки
+
+       Returns:
+           list: Отсортированный массив
+       """
     if len(arr) <= 1:
         return arr
 
