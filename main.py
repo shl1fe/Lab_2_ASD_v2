@@ -82,11 +82,12 @@ def binary_search(arr, target):
     low = 0
     high = len(arr) - 1
 
-    while low <= high:
-        mid = (low + high) // 2
-
-        if compare_keys(arr[mid], target):
-            low = mid + 1
+def binary_search_for_insert(arr: list[Key], target: Key) -> int:
+    left, right = 0, len(arr)
+    while left < right:
+        mid = (left + right) // 2
+        if arr[mid].compare_keys(target):
+            right = mid
         else:
             high = mid - 1
     return low
