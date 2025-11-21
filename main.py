@@ -23,7 +23,22 @@ class Key:
     fio: FIO
     other_data : str = ''
     def __repr__(self):
-        return f"{Key.date} {Key.fio} {Key.other_data}"
+        return f"{self.key_date} {self.key_fio} {self.other_data}"
+
+    def compare_keys(self, other):
+        if self.key_date.year != other.key_date.year:
+            return self.key_date.year < other.key_date.year
+        if self.key_date.month != other.key_date.month:
+            return self.key_date.month < other.key_date.month
+        if self.key_date.day != other.key_date.day:
+            return self.key_date.day < other.key_date.day
+
+        if self.key_fio.f != other.key_fio.f:
+            return self.key_fio.f > other.key_fio.f
+        if self.key_fio.i != other.key_fio.i:
+            return self.key_fio.i > other.key_fio.i
+        if self.key_fio.o != other.key_fio.o:
+            return self.key_fio.o > other.key_fio.o
 
 def read_data_from_file(filename):
     keys = []
