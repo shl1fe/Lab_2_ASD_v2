@@ -39,6 +39,13 @@ def read_data_from_file(filename):
     return keys
 
 def save_in_newFile(array_to_save : list, name_output_File : str):
+    """
+        Сохранение отсортированного массива в файл
+
+        Args:
+            array_to_save (list): Массив для сохранения
+            name_output_File (str): Имя выходного файла (без расширения)
+        """
     file = open(f"{name_output_File}.txt", "w", encoding="utf-8")
     for i in array_to_save:
         file.write(f"{i}\n")
