@@ -13,7 +13,7 @@ def binary_search_for_insert(arr: list, target) -> int:
 
     while left < right:
         mid = (left + right) // 2
-        if arr[mid].compare_keys(target):
+        if target.compare_keys(arr[mid]):
             right = mid
         else:
             left = mid + 1

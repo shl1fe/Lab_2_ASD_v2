@@ -54,8 +54,10 @@ def save_in_newFile(array_to_save: list[Key], filepath: str, filename: str = "ou
 if __name__ == "__main__":
     df = read_data_from_file("static/input/input_1000000.txt")
     df = df[0:10000]
-    time_start = time.perf_counter()
-    sorted_DATA = quick_sort(df)
+    time_start = time.perf_counter ()
+
+    sorted_DATA = quick_sort(DATA_for_sort)
+
     time_end = time.perf_counter()
 
     print(f"Время выполнения Быстрая : {time_end - time_start:.6f} секунд")
