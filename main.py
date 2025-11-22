@@ -38,7 +38,7 @@ def read_data_from_file(filename):
     file.close()
     return keys
 
-def save_in_newFile(array_to_save : list, name_output_File : str):
+def save_in_newFile(array_to_save: list[Key], filepath: str, filename: str = "out.txt"):
     """
         Сохранение отсортированного массива в файл
 
@@ -46,29 +46,26 @@ def save_in_newFile(array_to_save : list, name_output_File : str):
             array_to_save (list): Массив для сохранения
             name_output_File (str): Имя выходного файла (без расширения)
         """
-    file = open(f"{name_output_File}.txt", "w", encoding="utf-8")
+    file = open(f"{filepath+filename}", "w", encoding="utf-8")
     for i in array_to_save:
         file.write(f"{i}\n")
     file.close()
 
 if __name__ == "__main__":
-    DATA_for_sort = read_data_from_file("input_1000000.txt")
-
-    print("\n")
-
-    time_start = time.perf_counter ()
-
-    sorted_DATA = quick_sort(DATA_for_sort)
-
+    df = read_data_from_file("static/input/input_1000000.txt")
+    df = df[0:10000]
+    time_start = time.perf_counter()
+    sorted_DATA = quick_sort(df)
     time_end = time.perf_counter()
+
     print(f"Время выполнения Быстрая : {time_end - time_start:.6f} секунд")
 
-    save_in_newFile(sorted_DATA, "output_input_1000000")
+    save_in_newFile(sorted_DATA, "static/out/")
 
     time_start = time.perf_counter()
-
-    sorted_DATA = two_way_insert_sort(DATA_for_sort)
-
+    sorted_DATA = two_way_insert_sort(df)
     time_end = time.perf_counter()
 
     print(f"Время выполнения Двухпутевые вставки : {time_end - time_start:.6f} секунд")
+
+    save_in_newFile(sorted_DATA, "static/out/", filename="out_stab.txt")
