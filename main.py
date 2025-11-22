@@ -17,7 +17,9 @@ def read_data_from_file(filename):
        """
     keys = []
     file = open(filename, 'r', encoding='utf-8')
+    num = 0
     for line in file:
+        num += 1
         if not line:
             continue
 
@@ -26,7 +28,7 @@ def read_data_from_file(filename):
             day, month, year, f, i, o = line
             date = Date(int(day), int(month), int(year))
             fio = FIO(f, i, o)
-            key = Key(date, fio)
+            key = Key(date, fio, num)
             keys.append(key)
 
         if len(line) == 7:
@@ -38,7 +40,7 @@ def read_data_from_file(filename):
     file.close()
     return keys
 
-def save_in_newFile(array_to_save : list, name_output_File : str):
+def save_in_newFile(array_to_save: list, name_output_File: str):
     """
         Сохранение отсортированного массива в файл
 
@@ -52,7 +54,7 @@ def save_in_newFile(array_to_save : list, name_output_File : str):
     file.close()
 
 if __name__ == "__main__":
-    DATA_for_sort = read_data_from_file("input_data/input_1000000.txt")
+    DATA_for_sort = read_data_from_file("input_data/input_10.txt")
 
     print("\n")
 
@@ -70,6 +72,6 @@ if __name__ == "__main__":
 
     time_end = time.perf_counter()
 
-    save_in_newFile(sorted_DATA, "output_1000000")
+    save_in_newFile(sorted_DATA, "output_10")
 
     print(f"Время выполнения Двухпутевые вставки : {time_end - time_start:.6f} секунд")
