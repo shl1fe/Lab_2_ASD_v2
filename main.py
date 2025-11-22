@@ -15,29 +15,27 @@ def read_data_from_file(filename):
        Returns:
            list: Список объектов Key
        """
-    keys = []
-    file = open(filename, 'r', encoding='utf-8')
-    num = 0
-    for line in file:
-        if not line:
-            continue
-        num += 1
-        line = line.strip().split()
-        if len(line) == 6:
-            day, month, year, f, i, o = line
-            date = Date(int(day), int(month), int(year))
-            fio = FIO(f, i, o)
-            key = Key(date, fio, num)
-            keys.append(key)
+    with open(filename, 'r', encoding='utf-8') as file:
+        num = 0
+        for line in file:
+            if not line:  # пропускаем пустые строки
+                continue
+            num += 1
+            line_parts = line.strip().split()
 
-        if len(line) == 7:
-                day, month, year, f, i, o, tail = line
+            if len(line_parts) == 6:
+                day, month, year, f, i, o = line_parts
+                date = Date(int(day), int(month), int(year))
+                fio = FIO(f, i, o)
+                key = Key(date, fio, num)
+                yield key
+
+            elif len(line_parts) == 7:
+                day, month, year, f, i, o, tail = line_parts
                 date = Date(int(day), int(month), int(year))
                 fio = FIO(f, i, o)
                 key = Key(date, fio, tail)
-                keys.append(key)
-    file.close()
-    return keys
+                yield key
 
 def save_in_newFile(array_to_save: list[Key], filepath: str, filename: str = "out.txt"):
     """
@@ -53,8 +51,8 @@ def save_in_newFile(array_to_save: list[Key], filepath: str, filename: str = "ou
     file.close()
 
 if __name__ == "__main__":
-    DATA_for_sort = read_data_from_file("static/input/input_10.txt")
-    # df = df[0:10000]
+    DATA_for_sort = list(read_data_from_file("static/input/input_10.txt"))
+
     time_start = time.perf_counter ()
 
     sorted_DATA = quick_sort(DATA_for_sort)
