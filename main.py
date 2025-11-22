@@ -52,7 +52,7 @@ def save_in_newFile(array_to_save : list, name_output_File : str):
     file.close()
 
 if __name__ == "__main__":
-    DATA_for_sort = read_data_from_file("input_1000000.txt")
+    DATA_for_sort = read_data_from_file("input_data/input_1000000.txt")
 
     print("\n")
 
@@ -63,12 +63,13 @@ if __name__ == "__main__":
     time_end = time.perf_counter()
     print(f"Время выполнения Быстрая : {time_end - time_start:.6f} секунд")
 
-    save_in_newFile(sorted_DATA, "output_input_1000000")
 
     time_start = time.perf_counter()
 
     sorted_DATA = two_way_insert_sort(DATA_for_sort)
 
     time_end = time.perf_counter()
+
+    save_in_newFile(sorted_DATA, "output_1000000")
 
     print(f"Время выполнения Двухпутевые вставки : {time_end - time_start:.6f} секунд")
